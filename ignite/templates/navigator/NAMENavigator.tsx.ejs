@@ -1,0 +1,27 @@
+---
+destinationDir: app/navigators
+patch:
+  path: "app/navigators/index.ts"
+  append: "export * from \"./<%= props.pascalCaseName %>Navigator\"\n"
+  skip: <%= props.skipIndexFile %>
+---
+import React from "react"
+import { createStackNavigator } from "@react-navigation/stack"
+import {
+  DemoScreen
+} from "../screens"
+
+//MAVERICKTODO: update naming convention to match new boilerpalte. example-navigator -> ExampleNavigator.
+
+export type <%= props.pascalCaseName %>NavigatorParamList = {
+  demo: undefined
+}
+
+const Stack = createStackNavigator<<%= props.pascalCaseName %>NavigatorParamList>()
+export const <%= props.pascalCaseName %>Navigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: "transparent" }, headerShown: false, }}>
+      <Stack.Screen name="Demo" component={DemoScreen} />
+    </Stack.Navigator>
+  )
+}
