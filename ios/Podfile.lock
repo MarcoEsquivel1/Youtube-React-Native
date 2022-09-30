@@ -10,9 +10,9 @@ PODS:
     - ExpoModulesCore
   - EXFileSystem (14.1.0):
     - ExpoModulesCore
-  - EXFont (10.2.0):
+  - EXFont (10.2.1):
     - ExpoModulesCore
-  - Expo (46.0.10):
+  - Expo (46.0.13):
     - ExpoModulesCore
   - ExpoKeepAwake (10.2.0):
     - ExpoModulesCore
@@ -646,8 +646,8 @@ SPEC CHECKSUMS:
   EXConstants: 7c44785d41d8e959d527d23d29444277a4d1ee73
   EXDevice: 7647ca9b1fd8b269dfd896a7643d659343358054
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
-  EXFont: a5d80bd9b3452b2d5abbce2487da89b0150e6487
-  Expo: fcdb32274e2ca9c7638d3b21b30fb665c6869219
+  EXFont: 06df627203afcb8a3b3152ec06eb2f11f46f0cff
+  Expo: 39582e41ae9e0aa9ed016d3918da87ee61e87525
   ExpoKeepAwake: 0e8f18142e71bbf2c7f6aa66ebed249ba1420320
   ExpoLinearGradient: 1a3af07c6dab3c612967a294836df9ae717431df
   ExpoLocalization: 63204f4b9d4f653469d266332ceaa6c6ac8a305d
@@ -706,6 +706,6 @@ SPEC CHECKSUMS:
   Yoga: c2b1f2494060865ac1f27e49639e72371b1205fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 272324d76c03c5b1bf66fd8eb25de1de893ad1b7
+PODFILE CHECKSUM: 9a1fc157a26dc2dcb7b70df4c187ca35910e6b07
 
 COCOAPODS: 1.11.3
