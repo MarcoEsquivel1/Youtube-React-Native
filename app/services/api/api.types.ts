@@ -2,37 +2,7 @@
  * These types indicate the shape of the data you expect to receive from your
  * API endpoint, assuming it's a JSON object like we have.
  */
-export interface EpisodeItem {
-  title: string
-  pubDate: string
-  link: string
-  guid: string
-  author: string
-  thumbnail: string
-  description: string
-  content: string
-  enclosure: {
-    link: string
-    type: string
-    length: number
-    duration: number
-    rating: { scheme: string; value: string }
-  }
-  categories: string[]
-}
 
-export interface ApiFeedResponse {
-  status: string
-  feed: {
-    url: string
-    title: string
-    link: string
-    author: string
-    description: string
-    image: string
-  }
-  items: EpisodeItem[]
-}
 
 /**
  * The options used to configure apisauce.
@@ -48,3 +18,56 @@ export interface ApiConfig {
    */
   timeout: number
 }
+
+export interface ApiFeedResponse {
+  etag:          string;
+  items:         VideoItem[];
+  kind:          string;
+  nextPageToken: string;
+  pageInfo:      PageInfo;
+  regionCode:    string;
+ }
+ 
+ export interface VideoItem {
+  snippet: Snippet;
+  kind:    string;
+  etag:    string;
+  id:      ID;
+ }
+ 
+ export interface ID {
+  kind:    string;
+  videoId: string;
+ }
+ 
+
+ 
+ export interface Snippet {
+  publishedAt:          Date;
+  channelId:            string;
+  title:                string;
+  description:          string;
+  thumbnails:           Thumbnails;
+  channelTitle:         string;
+  liveBroadcastContent: string;
+  publishTime:          Date;
+ }
+
+ 
+ export interface Thumbnails {
+  default: Default;
+  high:    Default;
+  medium:  Default;
+ }
+ 
+ export interface Default {
+  height: number;
+  url:    string;
+  width:  number;
+ }
+ 
+ export interface PageInfo {
+  resultsPerPage: number;
+  totalResults:   number;
+ }
+ 
