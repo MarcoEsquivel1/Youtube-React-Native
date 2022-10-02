@@ -18,6 +18,7 @@ import Config from "../config"
 import {
   WelcomeScreen,
 } from "../screens"
+import { HomeScreen } from "../screens/HomeScreen"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 
 /**
@@ -57,7 +58,7 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
     >
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Welcome" component={HomeScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )

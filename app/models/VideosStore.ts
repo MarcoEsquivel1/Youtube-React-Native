@@ -9,24 +9,19 @@ import { VideoModel } from "./Video"
 export const VideosStoreModel = types
   .model("VideosStore")
   .props({
-    kind: types.string,
-    etag: types.string,
-    nextPageToken: types.string,
-    regionCode: types.string,
-    pageInfo: types.model({
-      totalResults: types.number,
-      resultsPerPage: types.number
-    }),
-    videos: types.array(VideoModel),
+    items: types.optional(types.array(VideoModel), []),
   })
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({
+    get videosList() {
+      return self.items
+    }
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(withSetPropAction)
   .actions((self) => ({
     async fetchVideos() {
       const response = await api.getVideos()
       if (response.kind === "ok") {
-
-        self.setProp("videos", videos)
+        self.setProp("items", response.videos)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }
@@ -37,3 +32,15 @@ export interface VideosStore extends Instance<typeof VideosStoreModel> { }
 export interface VideosStoreSnapshotOut extends SnapshotOut<typeof VideosStoreModel> { }
 export interface VideosStoreSnapshotIn extends SnapshotIn<typeof VideosStoreModel> { }
 export const createVideosStoreDefaultModel = () => types.optional(VideosStoreModel, {})
+
+let _videosStore:VideosStore|null = null
+
+export function useStore(){
+  if(!_videosStore){
+    _videosStore = VideosStoreModel.create({
+      items: [],
+    })
+  }
+
+  return _videosStore
+}

@@ -20,19 +20,12 @@ export interface ApiConfig {
 }
 
 export interface ApiFeedResponse {
-  etag:          string;
   items:         VideoItem[];
-  kind:          string;
-  nextPageToken: string;
-  pageInfo:      PageInfo;
-  regionCode:    string;
  }
  
  export interface VideoItem {
-  snippet: Snippet;
-  kind:    string;
-  etag:    string;
-  id:      ID;
+   id:      ID;
+   snippet: Snippet;
  }
  
  export interface ID {
@@ -43,14 +36,11 @@ export interface ApiFeedResponse {
 
  
  export interface Snippet {
-  publishedAt:          Date;
   channelId:            string;
   title:                string;
   description:          string;
   thumbnails:           Thumbnails;
   channelTitle:         string;
-  liveBroadcastContent: string;
-  publishTime:          Date;
  }
 
  
@@ -66,8 +56,4 @@ export interface ApiFeedResponse {
   width:  number;
  }
  
- export interface PageInfo {
-  resultsPerPage: number;
-  totalResults:   number;
- }
  
