@@ -15,10 +15,12 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
+import { Video } from "../models/Video"
 import {
   WelcomeScreen,
 } from "../screens"
 import { HomeScreen } from "../screens/HomeScreen"
+import { VideoScreen } from "../screens/VideoScreen"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 
 /**
@@ -35,8 +37,8 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Welcome: undefined
-  // 🔥 Your screens go here
+  Welcome: undefined;
+  Video: {video: Video};
 }
 
 /**
@@ -59,7 +61,7 @@ const AppStack = observer(function AppStack() {
       screenOptions={{ headerShown: false }}
     >
           <Stack.Screen name="Welcome" component={HomeScreen} />
-      {/** 🔥 Your screens go here */}
+      {<Stack.Screen name="Video" component={VideoScreen}/>}
     </Stack.Navigator>
   )
 })

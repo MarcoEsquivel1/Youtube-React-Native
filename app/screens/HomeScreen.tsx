@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   TextStyle,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from "react-native"
@@ -27,7 +28,8 @@ import { delay } from "../utils/delay"
 import { colors, spacing } from "../theme"
 import { isRTL } from "../i18n"
 import { VideoCard } from "../components/VideoCard"
-import { useStore } from "../models/VideosStore"
+import { useStores } from "../models/"
+import { VideoList } from "../components/VideoList"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
@@ -43,10 +45,10 @@ const ICON_SIZE = 14
 export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = observer(function HomeScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
-  const videosStore = useStore()
+  const { videosStore } = useStores()
   const [refreshing, setRefreshing] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
-  
+
   useEffect(() => {
     (async function load() {
       setIsLoading(true)
@@ -57,9 +59,8 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
 
   useEffect(() => {
     (async function load() {
-      setIsLoading(true)
+
       await videosStore.fetchVideos()
-      setIsLoading(false)
     })
   }, [])
 
@@ -73,22 +74,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
       <Text text="home" />
-      <Text>Hola</Text>
-      <FlatList<Video> 
-        data={videosStore.videosList}
-        contentContainerStyle={{ paddingVertical: 15 }}
-        refreshing={refreshing}
-        onRefresh={manualRefresh}
-        
-        keyExtractor= {(video) => video.id.videoId}
-        renderItem={({ item }) => {
-          return(
-            <VideoCard 
-              video={item}
-            />
-          )
-        }}
-      />
+      <VideoList data={videosStore.items} onRefresh={manualRefresh} refreshing={refreshing} />
     </Screen>
   )
 })
@@ -97,82 +83,6 @@ const $root: ViewStyle = {
   flex: 1,
 }
 
-//MAVERICKTODO: update the generator template with new patterns
 const $screenContentContainer: ViewStyle = {
   flex: 1,
-}
-
-const $flatListContentContainer: ViewStyle = {
-  paddingHorizontal: spacing.large,
-  paddingTop: spacing.large + spacing.extraLarge,
-  paddingBottom: spacing.large,
-}
-
-const $heading: ViewStyle = {
-  marginBottom: spacing.medium,
-}
-
-const $item: ViewStyle = {
-  padding: spacing.medium,
-  marginTop: spacing.medium,
-  minHeight: 120,
-}
-
-const $itemThumbnail: ImageStyle = {
-  marginTop: spacing.small,
-  borderRadius: 50,
-  alignSelf: "flex-start",
-}
-
-const $toggle: ViewStyle = {
-  marginTop: spacing.medium,
-}
-
-const $labelStyle: TextStyle = {
-  textAlign: "left",
-}
-
-const $iconContainer: ViewStyle = {
-  height: ICON_SIZE,
-  width: ICON_SIZE,
-  flexDirection: "row",
-  marginRight: spacing.small,
-}
-
-const $metadata: TextStyle = {
-  color: colors.textDim,
-  marginTop: spacing.extraSmall,
-  flexDirection: "row",
-}
-
-const $metadataText: TextStyle = {
-  color: colors.textDim,
-  marginRight: spacing.medium,
-  marginBottom: spacing.extraSmall,
-}
-
-const $favoriteButton: ViewStyle = {
-  borderRadius: 17,
-  marginTop: spacing.medium,
-  justifyContent: "flex-start",
-  backgroundColor: colors.palette.neutral300,
-  borderColor: colors.palette.neutral300,
-  paddingHorizontal: spacing.medium,
-  paddingTop: spacing.micro,
-  paddingBottom: 0,
-  minHeight: 32,
-  alignSelf: "flex-start",
-}
-
-const $unFavoriteButton: ViewStyle = {
-  borderColor: colors.palette.primary100,
-  backgroundColor: colors.palette.primary100,
-}
-
-const $emptyState: ViewStyle = {
-  marginTop: spacing.huge,
-}
-
-const $emptyStateImage: ImageStyle = {
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
 }

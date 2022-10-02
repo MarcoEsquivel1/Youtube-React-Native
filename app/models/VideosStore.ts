@@ -33,7 +33,7 @@ export interface VideosStoreSnapshotOut extends SnapshotOut<typeof VideosStoreMo
 export interface VideosStoreSnapshotIn extends SnapshotIn<typeof VideosStoreModel> { }
 export const createVideosStoreDefaultModel = () => types.optional(VideosStoreModel, {})
 
-let _videosStore:VideosStore|null = null
+/* let _videosStore:VideosStore|null = null
 
 export function useStore(){
   if(!_videosStore){
@@ -43,4 +43,4 @@ export function useStore(){
   }
 
   return _videosStore
-}
+} */
