@@ -26,7 +26,6 @@ export const ChannelVideosStoreModel = types
       self.setProp('channelid', channelId)
       const response = await api.getChannelVideos(channelId)
       if (response.kind === "ok") {
-        console.log(self.nextPageToken)
         self.setProp("items", response.videos)
         self.setProp("nextPageToken", response.nextPageToke)
       } else {

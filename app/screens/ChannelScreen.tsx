@@ -19,10 +19,9 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   const { channelVideosStore } = useStores()
-  const { route, navigation } = _props
+  const { route } = _props
   const {height} = Dimensions.get('window');
   useEffect(() => {
-    //channelStore.fetchChannel(route.params.channelId)
     channelVideosStore.fetchChannelVideos(route.params.channelId)
 
   }, [channelVideosStore.items])

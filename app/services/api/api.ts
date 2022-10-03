@@ -12,13 +12,11 @@ import {
 } from "apisauce"
 import Config from "../../config"
 import type {
-  ApiChannelResponse,
   ApiConfig,
   ApiFeedResponse, // @demo remove-curent-line
 } from "./api.types"
 import { GeneralApiProblem, getGeneralApiProblem } from "./api-problem"
 import type { VideoSnapshotIn } from "../../models/Video"
-import { ChannelSnapshotIn } from "../../models/Channel"
 /**
  * Configuring the apisauce instance.
  */
@@ -26,7 +24,7 @@ export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
   timeout: 10000,
 }
-const apiKey = 'AIzaSyBQlbvlM-0n2OLVi99nG0FB7x0N8uyhcYI'
+//const apiKey = 'AIzaSyBQlbvlM-0n2OLVi99nG0FB7x0N8uyhcYI'
 /**
  * Manages all requests to the API. You can use this class to build out
  * various requests that you need to call from your backend API.
@@ -46,12 +44,15 @@ export class Api {
       headers: {
         Accept: "application/json",
       },
+      params: {
+        key: 'AIzaSyBQlbvlM-0n2OLVi99nG0FB7x0N8uyhcYI'
+    }
     })
   }
 
   async getVideos(): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&key=${apiKey}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video`
     )
     
     if (!response.ok) {
@@ -78,7 +79,7 @@ export class Api {
   }
   async getMoreVideos(pageToken: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${pageToken}&type=video&key=${apiKey}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${pageToken}&type=video`
     )
     
     if (!response.ok) {
@@ -105,7 +106,7 @@ export class Api {
   }
   async getChannelVideos(channelId: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&order=date&maxResults=10`
+      `https://www.googleapis.com/youtube/v3/search?channelId=${channelId}&part=snippet&order=date&maxResults=10`
     )
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -129,7 +130,7 @@ export class Api {
   }
   async getMoreChannelVideos(channelId: string, pageToken: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&pageToken=${pageToken}&order=date&maxResults=10`
+      `https://www.googleapis.com/youtube/v3/search?channelId=${channelId}&part=snippet&pageToken=${pageToken}&order=date&maxResults=10`
     )
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -154,7 +155,7 @@ export class Api {
   
   async getRecommendedVideos(videoId: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&type=video&relatedToVideoId=${videoId}&part=snippet&maxResults=10`
+      `https://www.googleapis.com/youtube/v3/search?type=video&relatedToVideoId=${videoId}&part=snippet&maxResults=10`
     )
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -179,7 +180,7 @@ export class Api {
   }
   async getMoreRecommendedVideos(videoId: string, pageToken: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&type=video&relatedToVideoId=${videoId}&part=snippet&pageToken=${pageToken}&maxResults=10`
+      `https://www.googleapis.com/youtube/v3/search?type=video&relatedToVideoId=${videoId}&part=snippet&pageToken=${pageToken}&maxResults=10`
     )
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
