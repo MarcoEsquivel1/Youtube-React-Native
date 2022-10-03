@@ -59,7 +59,6 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
 
   useEffect(() => {
     (async function load() {
-
       await videosStore.fetchVideos()
     })
   }, [])
@@ -74,7 +73,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
       <Text text="home" />
-      <VideoList data={videosStore.items} onRefresh={manualRefresh} refreshing={refreshing} />
+      <VideoList data={videosStore.videosList} onRefresh={manualRefresh} refreshing={refreshing} />
     </Screen>
   )
 })

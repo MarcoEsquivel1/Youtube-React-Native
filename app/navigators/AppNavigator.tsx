@@ -19,6 +19,7 @@ import { Video } from "../models/Video"
 import {
   WelcomeScreen,
 } from "../screens"
+import { ChannelScreen } from "../screens/ChannelScreen"
 import { HomeScreen } from "../screens/HomeScreen"
 import { VideoScreen } from "../screens/VideoScreen"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
@@ -39,6 +40,7 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 export type AppStackParamList = {
   Welcome: undefined;
   Video: {video: Video};
+  Channel: {channelId: string};
 }
 
 /**
@@ -60,8 +62,11 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
     >
-          <Stack.Screen name="Welcome" component={HomeScreen} />
-      {<Stack.Screen name="Video" component={VideoScreen}/>}
+      <Stack.Screen name="Welcome" component={HomeScreen} />
+      
+      <Stack.Screen name="Video" component={VideoScreen}/>
+      <Stack.Screen name="Channel" component={ChannelScreen}/>
+      
     </Stack.Navigator>
   )
 })

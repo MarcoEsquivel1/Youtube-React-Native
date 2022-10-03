@@ -6,30 +6,33 @@ import { VideoModel } from "./Video"
 /**
  * Model description here for TypeScript hints.
  */
-export const VideosStoreModel = types
+export const ChannelVideosStoreModel = types
   .model("VideosStore")
   .props({
+    isLoading: false,
     nextPageToken: types.optional(types.string, ''),
     items: types.optional(types.array(VideoModel), []),
   })
   .views((self) => ({
-    get videosList() {
+    get channelVideosList() {
       return self.items
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(withSetPropAction)
   .actions((self) => ({
-    async fetchVideos() {
-      const response = await api.getVideos()
+    async fetchChannelVideos(channelId) {
+      self.setProp("isLoading", true)
+      const response = await api.getChannelVideos(channelId)
       if (response.kind === "ok") {
         self.setProp("items", response.videos)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }
+      self.setProp("isLoading", false)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-export interface VideosStore extends Instance<typeof VideosStoreModel> { }
-export interface VideosStoreSnapshotOut extends SnapshotOut<typeof VideosStoreModel> { }
-export interface VideosStoreSnapshotIn extends SnapshotIn<typeof VideosStoreModel> { }
-export const createVideosStoreDefaultModel = () => types.optional(VideosStoreModel, {})
+export interface ChannelVideosStore extends Instance<typeof ChannelVideosStoreModel> { }
+export interface ChannelVideosStoreSnapshotOut extends SnapshotOut<typeof ChannelVideosStoreModel> { }
+export interface ChannelVideosStoreSnapshotIn extends SnapshotIn<typeof ChannelVideosStoreModel> { }
+export const createChannelVideosStoreDefaultModel = () => types.optional(ChannelVideosStoreModel, {})
