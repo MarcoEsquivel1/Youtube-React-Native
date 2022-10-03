@@ -26,7 +26,7 @@ export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
   timeout: 10000,
 }
-
+const apiKey = 'AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g'
 /**
  * Manages all requests to the API. You can use this class to build out
  * various requests that you need to call from your backend API.
@@ -51,7 +51,7 @@ export class Api {
 
   async getVideos(): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&key=AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g"
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&key=${apiKey}`
     )
     
     if (!response.ok) {
@@ -77,7 +77,32 @@ export class Api {
   }
   async getChannelVideos(channelId: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g&channelId=${channelId}&part=snippet,id&order=date&maxResults=10`
+      `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&order=date&maxResults=10`
+    )
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+      
+      // This is where we transform the data into the shape we expect for our MST model.
+      const videos: VideoSnapshotIn[] = rawData.items.map((raw) => ({
+        ...raw,
+      }))
+
+      return { kind: "ok", videos}
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+  async getRecommendedVideos(videoId: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
+      `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&type=video&relatedToVideoId=${videoId}&part=snippet&maxResults=10`
     )
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -101,7 +126,7 @@ export class Api {
     }
   }
 
-  async getChannel(channelId: string): Promise<{ kind: "ok"; channel: ChannelSnapshotIn[]} | GeneralApiProblem> {
+  /* async getChannel(channelId: string): Promise<{ kind: "ok"; channel: ChannelSnapshotIn[]} | GeneralApiProblem> {
     const response: ApiResponse<ApiChannelResponse> = await this.apisauce.get(
       `​https://www.googleapis.com/youtube/v3/channels?part=brandingSettings&id=${channelId}&key=AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g`
     )
@@ -126,7 +151,7 @@ export class Api {
       }
       return { kind: "bad-data" }
     }
-  }
+  } */
 }
 
 

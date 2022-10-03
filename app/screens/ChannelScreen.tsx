@@ -22,13 +22,12 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   // const { someStore, anotherStore } = useStores()
   const { channelStore, channelVideosStore } = useStores()
   const { route, navigation } = _props
-  const [refreshing, setRefreshing] = React.useState(false)
 
   useEffect(() => {
     //channelStore.fetchChannel(route.params.channelId)
     channelVideosStore.fetchChannelVideos(route.params.channelId)
 
-  }, [ channelVideosStore.items, channelStore.items])
+  }, [ channelVideosStore.items])
   /* useEffect(() => {
       //await channelStore.fetchChannel(route.params.channelId);
       channelVideosStore.fetchChannelVideos(route.params.channelId)
@@ -37,7 +36,7 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   //console.log(channelVideosStore.items)
   // Pull in navigation via hook
   // const navigation = useNavigation()
-  if(channelVideosStore.isLoading || channelStore.isLoading){
+  if(channelVideosStore.isLoading ){
     return(
       <View style={{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <ActivityIndicator size="large" />
