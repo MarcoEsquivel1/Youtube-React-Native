@@ -25,9 +25,9 @@ export const CommentsSotreModel = types
       
       const response = await api.getComments(videoId)
       if (response.kind === "ok") {
-        console.log(response.comments)
-        //self.setProp("items", response.videos)
-        //self.setProp("nextPageToken", response.nextPageToke)
+        //console.log(response.comments)
+        self.setProp("items", response.comments)
+        self.setProp("nextPageToken", response.nextPageToke)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }

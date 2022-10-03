@@ -47,7 +47,7 @@ export class Api {
         Accept: "application/json",
       },
       params: {
-        key: 'AIzaSyBQlbvlM-0n2OLVi99nG0FB7x0N8uyhcYI'
+        key: 'AIzaSyAAwW69pJNe7rw657Ew4fouWlG6LQ3pn_Q'
     }
     })
   }

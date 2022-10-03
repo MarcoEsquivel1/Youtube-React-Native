@@ -32,7 +32,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 	const { height } = Dimensions.get('window');
 	useEffect(() => {
 		recommendedVideosStore.fetchRecommendedVideos(route.params.video.id.videoId)
-		commentsStore.fetchComments(route.params.video.id.videoId)
+		//commentsStore.fetchComments(route.params.video.id.videoId)
 	}, [recommendedVideosStore.items])
 
 	if (recommendedVideosStore.isLoading) {
@@ -93,6 +93,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 								borderColor: 'lightgray',
 								flexDirection: 'row',
 								margin: 5,
+								marginBottom: 0,
 								paddingVertical: 5,
 								alignItems: 'center'
 							}}
@@ -112,6 +113,32 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 									numberOfLines={2}
 								>{route.params.video.snippet.channelTitle}</Text>
 							</View>
+						</View>
+					</TouchableOpacity>
+				</View>
+				<View >
+					<TouchableOpacity
+						onPress={
+							() => {
+								navigation.navigate('Comments', { videoId: route.params.video.id.videoId })
+							}}
+					>
+						<View
+							style={{
+								//borderTopWidth: 0.6,
+								borderBottomWidth: 0.6,
+								borderColor: 'lightgray',
+								flexDirection: 'row',
+								margin: 5,
+								marginTop: 0,
+								paddingVertical: 5,
+								alignItems: 'center'
+							}}
+						>
+							<MaterialIcons name="comment" size={40} color="#212121" />
+							<Text style={{
+									marginLeft: 10
+								}}>Comments</Text>
 						</View>
 					</TouchableOpacity>
 				</View>
