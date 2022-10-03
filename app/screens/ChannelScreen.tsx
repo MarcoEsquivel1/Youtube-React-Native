@@ -7,6 +7,7 @@ import { Screen, Text } from "../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../models"
 import { VideoList } from "../components/VideoList"
+import { VideoCard } from "../components/VideoCard"
 
 // STOP! READ ME FIRST!
 // To fix the TS error below, you'll need to add the following things in your navigation config:
@@ -24,7 +25,7 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   const [refreshing, setRefreshing] = React.useState(false)
 
   useEffect(() => {
-    channelStore.fetchChannel(route.params.channelId)
+    //channelStore.fetchChannel(route.params.channelId)
     channelVideosStore.fetchChannelVideos(route.params.channelId)
 
   }, [ channelVideosStore.items, channelStore.items])
@@ -45,9 +46,10 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   }
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
-      <Text text="channel" />
+      <VideoCard video={channelVideosStore.channelVideosList[0]}/>
+      <Text>Uploads:</Text>
       <View>
-						<VideoList data={channelVideosStore.channelVideosList} />
+						<VideoList data={channelVideosStore.channelVideosList} margin={10} />
 					</View>
     </Screen>
   )

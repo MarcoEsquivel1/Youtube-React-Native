@@ -6,12 +6,13 @@ interface VideoListProps {
     data: Video[],
     refreshing?: boolean,
     onRefresh?: () => void
+    margin?: number
 }
 
 export const VideoList = (props: VideoListProps) => {
     const { data, refreshing, onRefresh } = props
     return (
-        <View>
+        <View style={{paddingHorizontal: props.margin}}>
             <FlatList<Video>
                 data={data}
                 contentContainerStyle={{ paddingVertical: 15 }}

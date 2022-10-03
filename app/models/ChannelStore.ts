@@ -20,9 +20,9 @@ export const ChannelStoreModel = types
   .actions((self) => ({
     async fetchChannel(channelId) {
       self.setProp("isLoading", true)
+      console.log('yes')
       const response = await api.getChannel(channelId)
       if (response.kind === "ok") {
-        console.log(response.channel)
         self.setProp("items", response.channel)
       } else {
         console.tron.error(`Error fetching channel: ${JSON.stringify(response)}`, [])

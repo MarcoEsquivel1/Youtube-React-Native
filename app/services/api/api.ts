@@ -51,7 +51,7 @@ export class Api {
 
   async getVideos(): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&key=AIzaSyAAwW69pJNe7rw657Ew4fouWlG6LQ3pn_Q"
+      "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&key=AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g"
     )
     
     if (!response.ok) {
@@ -105,7 +105,7 @@ export class Api {
     const response: ApiResponse<ApiChannelResponse> = await this.apisauce.get(
       `​https://www.googleapis.com/youtube/v3/channels?part=brandingSettings&id=${channelId}&key=AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g`
     )
-    
+    console.log(response)
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem

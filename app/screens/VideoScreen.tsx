@@ -35,7 +35,6 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 	const { route, navigation } = _props
 	return (
 		<Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
-			<Text text="video" />
 			<View style={{
 				flex: 1,
 			}}>

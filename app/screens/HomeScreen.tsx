@@ -72,7 +72,6 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   // const navigation = useNavigation()
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
-      <Text text="home" />
       <VideoList data={videosStore.videosList} onRefresh={manualRefresh} refreshing={refreshing} />
     </Screen>
   )
