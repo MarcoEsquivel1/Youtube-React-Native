@@ -74,6 +74,8 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 							fontSize: 10,
 							margin: 9
 						}}
+						numberOfLines={2}
+						ellipsizeMode="tail"
 					>
 						{route.params.video.snippet.description}
 					</Text>
