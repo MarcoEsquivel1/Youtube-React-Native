@@ -1,7 +1,7 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { api } from "../services/api"
 import { withSetPropAction } from "./helpers/with-set-prop-action"
-import { VideoModel } from "./Video"
+import { Video, VideoModel } from "./Video"
 
 /**
  * Model description here for TypeScript hints.
@@ -9,6 +9,7 @@ import { VideoModel } from "./Video"
 export const VideosStoreModel = types
   .model("VideosStore")
   .props({
+    isLoading: false,
     nextPageToken: types.optional(types.string, ''),
     items: types.optional(types.array(VideoModel), []),
   })
@@ -16,6 +17,9 @@ export const VideosStoreModel = types
     get videosList() {
       return self.items
     },
+    get nextToken(){
+      return self.nextPageToken
+    }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(withSetPropAction)
   .actions((self) => ({
@@ -23,10 +27,31 @@ export const VideosStoreModel = types
       const response = await api.getVideos()
       if (response.kind === "ok") {
         self.setProp("items", response.videos)
+        self.setProp("nextPageToken", response.nextPageToke)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }
     },
+    async fetchMoreVideos() {
+      console.log('ies')
+      self.setProp("isLoading", true)
+      const response = await api.getMoreVideos(self.nextPageToken)
+      if (response.kind === "ok") {
+        this.update(response)
+      } else {
+        console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
+      }
+      self.setProp("isLoading", false)
+    },
+    update (response){
+      const up = self.videosList
+      response.videos.map((video)=>{
+        up.push(video)
+      })
+
+      self.setProp("items", up)
+      self.setProp("nextPageToken", response.nextPageToke)
+    }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface VideosStore extends Instance<typeof VideosStoreModel> { }

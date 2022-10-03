@@ -26,7 +26,7 @@ export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
   timeout: 10000,
 }
-const apiKey = 'AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g'
+const apiKey = 'AIzaSyBIdCycPhaUiyWe4vfweGhbMwdfzVdzlIM'
 /**
  * Manages all requests to the API. You can use this class to build out
  * various requests that you need to call from your backend API.
@@ -49,7 +49,7 @@ export class Api {
     })
   }
 
-  async getVideos(): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]} | GeneralApiProblem> {
+  async getVideos(): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&key=${apiKey}`
     )
@@ -67,7 +67,35 @@ export class Api {
         ...raw,
       }))
 
-      return { kind: "ok", videos}
+      const nextPageToke = rawData.nextPageToken
+      return { kind: "ok", videos, nextPageToke}
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+  async getMoreVideos(pageToken: string): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${pageToken}&type=video&key=${apiKey}`
+    )
+    
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+      
+      // This is where we transform the data into the shape we expect for our MST model.
+      const videos: VideoSnapshotIn[] = rawData.items.map((raw) => ({
+        ...raw,
+      }))
+
+      const nextPageToke = rawData.nextPageToken
+      return { kind: "ok", videos, nextPageToke}
     } catch (e) {
       if (__DEV__) {
         console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)

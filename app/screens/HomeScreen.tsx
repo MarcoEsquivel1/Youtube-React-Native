@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite"
 import {
   AccessibilityProps,
   ActivityIndicator,
+  Dimensions,
   FlatList,
   Image,
   ImageStyle,
@@ -48,18 +49,12 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   const { videosStore } = useStores()
   const [refreshing, setRefreshing] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
-
+  const {height} = Dimensions.get('window');
   useEffect(() => {
     (async function load() {
       setIsLoading(true)
       await videosStore.fetchVideos()
       setIsLoading(false)
-    })
-  }, [videosStore])
-
-  useEffect(() => {
-    (async function load() {
-      await videosStore.fetchVideos()
     })
   }, [])
 
@@ -70,9 +65,13 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   }
   // Pull in navigation via hook
   // const navigation = useNavigation()
+  console.log(videosStore.nextToken)
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
-      <VideoList data={videosStore.videosList} onRefresh={manualRefresh} refreshing={refreshing} />
+      <View style={{flex: 1, height: height}}>
+
+        <VideoList data={videosStore.videosList} onRefresh={manualRefresh} refreshing={refreshing} />
+      </View>
     </Screen>
   )
 })

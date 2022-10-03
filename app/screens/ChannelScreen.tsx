@@ -27,7 +27,7 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
     //channelStore.fetchChannel(route.params.channelId)
     channelVideosStore.fetchChannelVideos(route.params.channelId)
 
-  }, [ channelVideosStore.items])
+  }, [channelVideosStore.items])
   /* useEffect(() => {
       //await channelStore.fetchChannel(route.params.channelId);
       channelVideosStore.fetchChannelVideos(route.params.channelId)
@@ -36,20 +36,20 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   //console.log(channelVideosStore.items)
   // Pull in navigation via hook
   // const navigation = useNavigation()
-  if(channelVideosStore.isLoading ){
-    return(
-      <View style={{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+  if (channelVideosStore.isLoading) {
+    return (
+      <View style={{ height: '100%', alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" />
       </View>
     )
   }
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
-      <VideoCard video={channelVideosStore.channelVideosList[0]}/>
+      <VideoCard video={channelVideosStore.channelVideosList[0]} />
       <Text>Uploads:</Text>
-      <View>
-						<VideoList data={channelVideosStore.channelVideosList} margin={10} />
-					</View>
+      <View style={{flex:1}}>
+        <VideoList data={channelVideosStore.channelVideosList} margin={10} />
+      </View>
     </Screen>
   )
 })
@@ -58,5 +58,5 @@ const $root: ViewStyle = {
   flex: 1,
 }
 const $screenContentContainer: ViewStyle = {
-	flex: 1,
+  flex: 1,
 }

@@ -130,7 +130,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 					</View>
 					</TouchableOpacity>
 				</View>
-				<View>
+				<View style={{flex:1}}>
 					<VideoList data={recommendedVideosStore.recommendedVideosList} />
 				</View>
 			</View>
