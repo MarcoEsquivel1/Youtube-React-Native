@@ -33,7 +33,6 @@ export const VideosStoreModel = types
       }
     },
     async fetchMoreVideos() {
-      console.log('ies')
       self.setProp("isLoading", true)
       const response = await api.getMoreVideos(self.nextPageToken)
       if (response.kind === "ok") {
@@ -48,7 +47,6 @@ export const VideosStoreModel = types
       response.videos.map((video)=>{
         up.push(video)
       })
-
       self.setProp("items", up)
       self.setProp("nextPageToken", response.nextPageToke)
     }

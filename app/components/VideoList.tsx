@@ -1,23 +1,23 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
-import { useStores } from "../models";
 import { Video } from "../models/Video";
 import { VideoCard } from "./VideoCard";
 interface VideoListProps {
     data: Video[],
     refreshing?: boolean,
-    onRefresh?: () => void
-    margin?: number
+    onRefresh?: () => void,
+    margin?: number,
+    getMore: () => void
 }
 export const VideoList/* Component */ = (props: VideoListProps) => {
-    const { videosStore } = useStores()
     
-    const { data, refreshing, onRefresh } = props
+    
+    const { data, refreshing, onRefresh, margin, getMore } = props
     return (
-        <View style={{paddingHorizontal: props.margin, flex: 1}}>
+        <View style={{paddingHorizontal: margin, flex: 1}}>
             <FlatList<Video>
-                onEndReached={videosStore.fetchMoreVideos}
+                onEndReached={getMore}
                 onEndReachedThreshold={0.3}
                 style={{flex:1}}
                 ListFooterComponent={renderLoader}

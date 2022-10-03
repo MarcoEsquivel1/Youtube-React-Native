@@ -33,6 +33,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
     const textcolor = colors.text
 	const [playing, setPlaying] = useState(true);
 	const { route, navigation } = _props
+	const {height} = Dimensions.get('window');
 	useEffect(() => {
 		//channelStore.fetchChannel(route.params.channelId)
 		recommendedVideosStore.fetchRecommendedVideos(route.params.video.id.videoId)
@@ -50,6 +51,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 		<Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
 			<View style={{
 				flex: 1,
+				
 			}}>
 				<View style={{
 					width: "100%",
@@ -130,8 +132,12 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 					</View>
 					</TouchableOpacity>
 				</View>
-				<View style={{flex:1}}>
-					<VideoList data={recommendedVideosStore.recommendedVideosList} />
+				<View style={{flex:1, height: height}}>
+					{
+						recommendedVideosStore.isLoading ? 
+						<ActivityIndicator size="large" /> :
+						<VideoList data={recommendedVideosStore.recommendedVideosList} getMore={recommendedVideosStore.fetchMoreVideos}/>
+					}
 				</View>
 			</View>
 		</Screen>

@@ -12,6 +12,7 @@ export const ChannelVideosStoreModel = types
     isLoading: false,
     nextPageToken: types.optional(types.string, ''),
     items: types.optional(types.array(VideoModel), []),
+    channelid: ''
   })
   .views((self) => ({
     get channelVideosList() {
@@ -22,14 +23,37 @@ export const ChannelVideosStoreModel = types
   .actions((self) => ({
     async fetchChannelVideos(channelId) {
       self.setProp("isLoading", true)
+      self.setProp('channelid', channelId)
       const response = await api.getChannelVideos(channelId)
       if (response.kind === "ok") {
+        console.log(self.nextPageToken)
         self.setProp("items", response.videos)
+        self.setProp("nextPageToken", response.nextPageToke)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }
       self.setProp("isLoading", false)
     },
+    async fetchMoreVideos() {
+      //self.setProp("isLoading", true)
+      //console.log(self.nextPageToken)
+      const response = await api.getMoreChannelVideos( self.channelid,self.nextPageToken)
+      if (response.kind === "ok") {
+        this.update(response)
+        //console.log(self.nextPageToken)
+      } else {
+        console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
+      }
+      //self.setProp("isLoading", false)
+    },
+    update (response){
+      const up = self.channelVideosList
+      response.videos.map((video)=>{
+        up.push(video)
+      })
+      self.setProp("items", up)
+      self.setProp("nextPageToken", response.nextPageToke)
+    }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface ChannelVideosStore extends Instance<typeof ChannelVideosStoreModel> { }

@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Dimensions, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackParamList, AppStackScreenProps } from "../navigators"
 import { Screen, Text } from "../components"
@@ -22,7 +22,7 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
   // const { someStore, anotherStore } = useStores()
   const { channelStore, channelVideosStore } = useStores()
   const { route, navigation } = _props
-
+  const {height} = Dimensions.get('window');
   useEffect(() => {
     //channelStore.fetchChannel(route.params.channelId)
     channelVideosStore.fetchChannelVideos(route.params.channelId)
@@ -47,8 +47,8 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
       <VideoCard video={channelVideosStore.channelVideosList[0]} />
       <Text>Uploads:</Text>
-      <View style={{flex:1}}>
-        <VideoList data={channelVideosStore.channelVideosList} margin={10} />
+      <View style={{flex:1, height: height}}>
+        <VideoList data={channelVideosStore.channelVideosList} margin={10} getMore={channelVideosStore.fetchMoreVideos}/>
       </View>
     </Screen>
   )

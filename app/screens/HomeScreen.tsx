@@ -65,12 +65,11 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   }
   // Pull in navigation via hook
   // const navigation = useNavigation()
-  console.log(videosStore.nextToken)
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
       <View style={{flex: 1, height: height}}>
 
-        <VideoList data={videosStore.videosList} onRefresh={manualRefresh} refreshing={refreshing} />
+        <VideoList data={videosStore.videosList} onRefresh={manualRefresh} refreshing={refreshing} getMore={videosStore.fetchMoreVideos}/>
       </View>
     </Screen>
   )
