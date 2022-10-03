@@ -1,38 +1,16 @@
 import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import {
-  AccessibilityProps,
-  ActivityIndicator,
   Dimensions,
-  FlatList,
-  Image,
-  ImageStyle,
-  Platform,
-  StyleSheet,
-  TextStyle,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from "react-native"
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackParamList } from "../navigators"
-import { Button, Card, EmptyState, Icon, Screen, Text, Toggle } from "../components"
-import { Video } from "../models/Video"
+import { Screen } from "../components"
 import { delay } from "../utils/delay"
-import { colors, spacing } from "../theme"
-import { isRTL } from "../i18n"
-import { VideoCard } from "../components/VideoCard"
 import { useStores } from "../models/"
 import { VideoList } from "../components/VideoList"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../models"
 
 // STOP! READ ME FIRST!
 // To fix the TS error below, you'll need to add the following things in your navigation config:

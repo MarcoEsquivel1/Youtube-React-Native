@@ -35,16 +35,12 @@ export const ChannelVideosStoreModel = types
       self.setProp("isLoading", false)
     },
     async fetchMoreVideos() {
-      //self.setProp("isLoading", true)
-      //console.log(self.nextPageToken)
       const response = await api.getMoreChannelVideos( self.channelid,self.nextPageToken)
       if (response.kind === "ok") {
         this.update(response)
-        //console.log(self.nextPageToken)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }
-      //self.setProp("isLoading", false)
     },
     update (response){
       const up = self.channelVideosList

@@ -1,10 +1,8 @@
-import React, { FC, useEffect } from "react"
+import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { ActivityIndicator, Dimensions, View, ViewStyle } from "react-native"
-import { StackScreenProps } from "@react-navigation/stack"
-import { AppStackParamList, AppStackScreenProps } from "../navigators"
+import { AppStackScreenProps } from "../navigators"
 import { Screen, Text } from "../components"
-// import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../models"
 import { VideoList } from "../components/VideoList"
 import { VideoCard } from "../components/VideoCard"
@@ -20,7 +18,7 @@ interface ChannelScreenProps extends AppStackScreenProps<"Channel"> { }
 export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScreenProps) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
-  const { channelStore, channelVideosStore } = useStores()
+  const { channelVideosStore } = useStores()
   const { route, navigation } = _props
   const {height} = Dimensions.get('window');
   useEffect(() => {
@@ -28,14 +26,7 @@ export const ChannelScreen = observer(function ChannelScreen(_props: ChannelScre
     channelVideosStore.fetchChannelVideos(route.params.channelId)
 
   }, [channelVideosStore.items])
-  /* useEffect(() => {
-      //await channelStore.fetchChannel(route.params.channelId);
-      channelVideosStore.fetchChannelVideos(route.params.channelId)
-    
-  }, []); */
-  //console.log(channelVideosStore.items)
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+
   if (channelVideosStore.isLoading) {
     return (
       <View style={{ height: '100%', alignItems: 'center', justifyContent: 'center' }}>

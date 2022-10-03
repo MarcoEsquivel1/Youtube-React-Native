@@ -58,37 +58,37 @@ export interface Default {
 }
 
 export interface ApiChannelResponse {
-  etag:     string;
-  items:    Item[];
-  kind:     string;
+  etag: string;
+  items: Item[];
+  kind: string;
   pageInfo: PageInfo;
- }
- 
- export interface Item {
+}
+
+export interface Item {
   brandingSettings: BrandingSettings;
-  etag:             string;
-  id:               string;
-  kind:             string;
- }
- 
- export interface BrandingSettings {
+  etag: string;
+  id: string;
+  kind: string;
+}
+
+export interface BrandingSettings {
   channel: Channel;
-  image:   Image;
- }
- 
- export interface Channel {
-  description:         string;
-  title:               string;
+  image: Image;
+}
+
+export interface Channel {
+  description: string;
+  title: string;
   unsubscribedTrailer: string;
- }
- 
- export interface Image {
+}
+
+export interface Image {
   bannerExternalUrl: string;
- }
- 
- export interface PageInfo {
+}
+
+export interface PageInfo {
   resultsPerPage: number;
-  totalResults:   number;
- }
- 
+  totalResults: number;
+}
+
 

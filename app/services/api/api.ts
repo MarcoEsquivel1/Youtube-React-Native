@@ -202,32 +202,6 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
-  /* async getChannel(channelId: string): Promise<{ kind: "ok"; channel: ChannelSnapshotIn[]} | GeneralApiProblem> {
-    const response: ApiResponse<ApiChannelResponse> = await this.apisauce.get(
-      `​https://www.googleapis.com/youtube/v3/channels?part=brandingSettings&id=${channelId}&key=AIzaSyBH_bhuhrVku-kxyqkl1ddDbiopWPT7m6g`
-    )
-    console.log(response)
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    try {
-      const rawData = response.data
-      
-      // This is where we transform the data into the shape we expect for our MST model.
-      const channel: ChannelSnapshotIn[] = rawData.items.map((raw) => ({
-        ...raw,
-      }))
-
-      return { kind: "ok", channel}
-    } catch (e) {
-      if (__DEV__) {
-        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
-      }
-      return { kind: "bad-data" }
-    }
-  } */
 }
 
 

@@ -1,4 +1,3 @@
-import { observer } from "mobx-react-lite";
 import React from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { Video } from "../models/Video";
@@ -10,7 +9,7 @@ interface VideoListProps {
     margin?: number,
     getMore: () => void
 }
-export const VideoList/* Component */ = (props: VideoListProps) => {
+export const VideoList= (props: VideoListProps) => {
     
     
     const { data, refreshing, onRefresh, margin, getMore } = props
