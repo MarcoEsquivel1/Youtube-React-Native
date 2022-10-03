@@ -12,11 +12,13 @@ import {
 } from "apisauce"
 import Config from "../../config"
 import type {
+  ApiCommentsResponse,
   ApiConfig,
   ApiFeedResponse, // @demo remove-curent-line
 } from "./api.types"
 import { GeneralApiProblem, getGeneralApiProblem } from "./api-problem"
 import type { VideoSnapshotIn } from "../../models/Video"
+import { CommentSnapshotIn } from "../../models/Comment"
 /**
  * Configuring the apisauce instance.
  */
@@ -50,6 +52,33 @@ export class Api {
     })
   }
 
+  async getComments(videoId: string): Promise<{ kind: "ok"; comments: CommentSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
+    const response: ApiResponse<ApiCommentsResponse> = await this.apisauce.get(
+      `https://www.googleapis.com/youtube/v3/commentThreads?videoId=${videoId}&part=snippet`
+    )
+    
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+      
+      // This is where we transform the data into the shape we expect for our MST model.
+      const comments: CommentSnapshotIn[] = rawData.items.map((raw) => ({
+        ...raw,
+      }))
+
+      const nextPageToke = rawData.nextPageToken
+      return { kind: "ok", comments, nextPageToke}
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
   async getVideos(): Promise<{ kind: "ok"; videos: VideoSnapshotIn[]; nextPageToke: string} | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video`

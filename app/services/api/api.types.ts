@@ -57,38 +57,40 @@ export interface Default {
   width: number;
 }
 
-export interface ApiChannelResponse {
-  etag: string;
-  items: Item[];
-  kind: string;
-  pageInfo: PageInfo;
+
+//comments
+export interface ApiCommentsResponse {
+  items: CommentItem[];
+  nextPageToken: string;
 }
 
-export interface Item {
-  brandingSettings: BrandingSettings;
-  etag: string;
+export interface CommentItem {
   id: string;
-  kind: string;
+  snippet: ItemSnippet;
 }
 
-export interface BrandingSettings {
-  channel: Channel;
-  image: Image;
+export interface ItemSnippet {
+  topLevelComment: TopLevelComment;
+  totalReplyCount: number;
+  videoId: string;
 }
 
-export interface Channel {
-  description: string;
-  title: string;
-  unsubscribedTrailer: string;
+export interface TopLevelComment {
+  id: string;
+  snippet: TopLevelCommentSnippet;
 }
 
-export interface Image {
-  bannerExternalUrl: string;
+
+export interface TopLevelCommentSnippet {
+  authorDisplayName: string;
+  authorProfileImageUrl: string;
+  likeCount: number;
+  textDisplay: string;
+  textOriginal: string;
+  videoId: string;
 }
 
-export interface PageInfo {
-  resultsPerPage: number;
-  totalResults: number;
+export interface AuthorChannelID {
+  value: string;
 }
-
 

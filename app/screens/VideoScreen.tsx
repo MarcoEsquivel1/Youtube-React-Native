@@ -21,7 +21,7 @@ interface VideoScreenProps extends AppStackScreenProps<"Video"> { }
 export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProps) {
 	// Pull in one of our MST stores
 	// const { someStore, anotherStore } = useStores()
-	const { recommendedVideosStore } = useStores()
+	const { recommendedVideosStore, commentsStore } = useStores()
 	// Pull in navigation via hook
 	// const navigation = useNavigation()
 
@@ -32,6 +32,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 	const { height } = Dimensions.get('window');
 	useEffect(() => {
 		recommendedVideosStore.fetchRecommendedVideos(route.params.video.id.videoId)
+		commentsStore.fetchComments(route.params.video.id.videoId)
 	}, [recommendedVideosStore.items])
 
 	if (recommendedVideosStore.isLoading) {
@@ -83,7 +84,6 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 						onPress={
 							() => {
 								navigation.navigate('Channel', { channelId: route.params.video.snippet.channelId })
-
 							}}
 					>
 						<View
