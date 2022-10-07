@@ -11,11 +11,11 @@ export const VideosStoreModel = types
   .props({
     isLoading: false,
     nextPageToken: types.optional(types.string, ''),
-    items: types.optional(types.array(VideoModel), []),
+    vList: types.optional(types.array(VideoModel), []),
   })
   .views((self) => ({
     get videosList() {
-      return self.items
+      return self.vList
     },
     get nextToken(){
       return self.nextPageToken
@@ -25,8 +25,10 @@ export const VideosStoreModel = types
   .actions((self) => ({
     async fetchVideos() {
       const response = await api.getVideos()
+      console.log("prueba", response)
       if (response.kind === "ok") {
-        self.setProp("items", response.videos)
+        console.log(response.videos)
+        self.setProp("vList", response.videos)
         self.setProp("nextPageToken", response.nextPageToke)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
@@ -47,7 +49,7 @@ export const VideosStoreModel = types
       response.videos.map((video)=>{
         up.push(video)
       })
-      self.setProp("items", up)
+      self.setProp("vList", up)
       self.setProp("nextPageToken", response.nextPageToke)
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -31,14 +31,15 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   useEffect(() => {
     (async function load() {
       setIsLoading(true)
+      console.log("cargando")
       await videosStore.fetchVideos()
       setIsLoading(false)
-    })
+    })()
   }, [])
 
   async function manualRefresh() {
     setRefreshing(true)
-    await Promise.all([videosStore.fetchVideos(), delay(750)])
+    await Promise.all([videosStore.fetchVideos()])
     setRefreshing(false)
   }
   // Pull in navigation via hook

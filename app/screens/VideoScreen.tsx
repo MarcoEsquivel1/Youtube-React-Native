@@ -33,7 +33,7 @@ export const VideoScreen = observer(function VideoScreen(_props: VideoScreenProp
 	useEffect(() => {
 		recommendedVideosStore.fetchRecommendedVideos(route.params.video.id.videoId)
 		//commentsStore.fetchComments(route.params.video.id.videoId)
-	}, [recommendedVideosStore.items])
+	}, [])
 
 	if (recommendedVideosStore.isLoading) {
 		return (
