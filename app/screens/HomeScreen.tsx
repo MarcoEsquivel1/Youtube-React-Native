@@ -31,7 +31,6 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, "Home">> = obser
   useEffect(() => {
     (async function load() {
       setIsLoading(true)
-      console.log("cargando")
       await videosStore.fetchVideos()
       setIsLoading(false)
     })()

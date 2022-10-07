@@ -25,9 +25,7 @@ export const VideosStoreModel = types
   .actions((self) => ({
     async fetchVideos() {
       const response = await api.getVideos()
-      console.log("prueba", response)
       if (response.kind === "ok") {
-        console.log(response.videos)
         self.setProp("vList", response.videos)
         self.setProp("nextPageToken", response.nextPageToke)
       } else {
